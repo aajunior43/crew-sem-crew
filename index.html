@@ -11,12 +11,15 @@
             padding: 0;
             display: flex;
             height: 100vh;
+            background-color: #ffffff;
+            color: #333;
         }
         .menu, .details {
             width: 20%;
             background-color: #f0f0f0;
             padding: 20px;
             overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
         .main-area {
             width: 60%;
@@ -24,21 +27,24 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+            background-color: #ffffff;
         }
         .menu-item {
             margin: 10px 0;
             padding: 10px;
             background-color: #007bff;
-            color: white;
+            color: #fff;
             cursor: move;
+            border-radius: 4px;
         }
         .dropped-item {
             display: inline-block;
             margin: 10px;
             padding: 10px;
             background-color: #28a745;
-            color: white;
+            color: #fff;
             cursor: move;
+            border-radius: 4px;
         }
         .remove-btn {
             margin-left: 5px;
@@ -92,9 +98,15 @@
             margin-bottom: 20px;
         }
 
-        .api-key-form input {
+        .api-key-form label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .api-key-form input, .api-key-form select {
             width: 100%;
             padding: 5px;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -120,7 +132,15 @@
             <button id="loadButton">Carregar Configuração</button>
         </div>
         <div class="api-key-form">
-            <input type="password" id="apiKeyInput" placeholder="Insira sua API-KEY">
+            <label for="openaiApiKeyInput">OpenAI API Key</label>
+            <input type="password" id="openaiApiKeyInput" placeholder="Insira sua OpenAI API-KEY">
+            <label for="geminiApiKeyInput">Gemini API Key</label>
+            <input type="password" id="geminiApiKeyInput" placeholder="Insira sua Gemini API-KEY">
+            <label for="apiSelector">Usar API</label>
+            <select id="apiSelector">
+                <option value="openai">OpenAI</option>
+                <option value="gemini">Google Gemini</option>
+            </select>
         </div>
         <h2>Área Principal</h2>
         <div id="droppedItems"></div>
@@ -160,11 +180,15 @@
         const playArea = document.getElementById('playArea');
         const saveButton = document.getElementById('saveButton');
         const loadButton = document.getElementById('loadButton');
-        const apiKeyInput = document.getElementById('apiKeyInput');
+        const openaiApiKeyInput = document.getElementById('openaiApiKeyInput');
+        const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
+        const apiSelector = document.getElementById('apiSelector');
 
         let selectedItem = null;
         let dragSrcEl = null;
-        let apiKey = '';
+        let openaiApiKey = '';
+        let geminiApiKey = '';
+        let currentApi = 'openai';
 
         function createMenuItem(text) {
             const newItem = document.createElement('div');
@@ -376,16 +400,18 @@
                 
                 const gptResponse = document.createElement('div');
                 gptResponse.className = 'gpt-response';
-                gptResponse.textContent = 'Consultando GPT-4...';
+                gptResponse.textContent = 'Consultando ' + (currentApi === 'gemini' ? 'Gemini...' : 'GPT-4...');
                 playItem.appendChild(gptResponse);
                 
                 playArea.appendChild(playItem);
                 try {
-                    const response = await fetchGPT4Response(prompt);
+                    const response = currentApi === 'gemini'
+                        ? await fetchGeminiResponse(prompt)
+                        : await fetchOpenAIResponse(prompt);
                     gptResponse.textContent = response;
                     previousResponse = response;
                 } catch (error) {
-                    gptResponse.textContent = 'Erro ao consultar GPT-4: ' + error.message;
+                    gptResponse.textContent = 'Erro ao consultar a API: ' + error.message;
                     previousResponse = '';
                 }
             }
@@ -395,16 +421,16 @@
             }
         });
 
-        async function fetchGPT4Response(prompt) {
+        async function fetchOpenAIResponse(prompt) {
             // Salve a API-KEY no localStorage
-            localStorage.setItem('apiKey', apiKey);
+            localStorage.setItem('openaiApiKey', openaiApiKey);
             const API_URL = 'https://api.openai.com/v1/chat/completions';
 
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
+                    'Authorization': `Bearer ${openaiApiKey}`
                 },
                 body: JSON.stringify({
                     model: "gpt-4o-mini",
@@ -423,6 +449,30 @@
 
             const data = await response.json();
             return data.choices[0].message.content.trim();
+        }
+
+        async function fetchGeminiResponse(prompt) {
+            localStorage.setItem('geminiApiKey', geminiApiKey);
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${geminiApiKey}`;
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [
+                        { role: 'user', parts: [{ text: prompt }] }
+                    ]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text.trim();
         }
 
         document.querySelectorAll('.menu-item').forEach(item => {
@@ -462,22 +512,45 @@
             }
         }
 
-        apiKeyInput.addEventListener('blur', function() {
-            const newApiKey = apiKeyInput.value.trim();
-            if (newApiKey && newApiKey !== apiKey) {
-                apiKey = newApiKey;
-                //alert('API-KEY atualizada com sucesso!');
-            } else if (!newApiKey) {
+        openaiApiKeyInput.addEventListener('blur', function() {
+            const newKey = openaiApiKeyInput.value.trim();
+            if (newKey && newKey !== openaiApiKey) {
+                openaiApiKey = newKey;
+            } else if (!newKey) {
                 alert('Por favor, insira uma API-KEY válida.');
             }
         });
 
+        geminiApiKeyInput.addEventListener('blur', function() {
+            const newKey = geminiApiKeyInput.value.trim();
+            if (newKey && newKey !== geminiApiKey) {
+                geminiApiKey = newKey;
+            } else if (!newKey) {
+                alert('Por favor, insira uma API-KEY válida.');
+            }
+        });
+
+        apiSelector.addEventListener('change', function() {
+            currentApi = apiSelector.value;
+            localStorage.setItem('apiSelector', currentApi);
+        });
+
         // Adicione esta função para carregar a API-KEY salva quando a página for carregada
         function loadApiKey() {
-            const savedApiKey = localStorage.getItem('apiKey');
-            if (savedApiKey) {
-                apiKey = savedApiKey;
-                apiKeyInput.value = savedApiKey;
+            const savedOpenai = localStorage.getItem('openaiApiKey');
+            const savedGemini = localStorage.getItem('geminiApiKey');
+            const savedSelector = localStorage.getItem('apiSelector');
+            if (savedOpenai) {
+                openaiApiKey = savedOpenai;
+                openaiApiKeyInput.value = savedOpenai;
+            }
+            if (savedGemini) {
+                geminiApiKey = savedGemini;
+                geminiApiKeyInput.value = savedGemini;
+            }
+            if (savedSelector) {
+                currentApi = savedSelector;
+                apiSelector.value = savedSelector;
             }
         }
 
