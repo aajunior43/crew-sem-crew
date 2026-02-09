@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Component Showcase - Agentes AI</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/components/input.css">
+    <style>
+        body {
+            padding: var(--spacing-8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .showcase-section {
+            margin-bottom: var(--spacing-12);
+            padding: var(--spacing-6);
+            background-color: var(--color-bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-base);
+        }
+        
+        .showcase-section h2 {
+            margin-top: 0;
+            margin-bottom: var(--spacing-6);
+            padding-bottom: var(--spacing-3);
+            border-bottom: 2px solid var(--color-border);
+        }
+        
+        .showcase-section h3 {
+            margin-top: var(--spacing-6);
+            margin-bottom: var(--spacing-4);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-6);
+        }
+        
+        .theme-toggle-demo {
+            position: fixed;
+            top: var(--spacing-4);
+            right: var(--spacing-4);
+            padding: var(--spacing-3) var(--spacing-4);
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-weight: var(--font-weight-medium);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-fast);
+        }
+        
+        .theme-toggle-demo:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .code-block {
+            background-color: var(--color-bg-tertiary);
+            padding: var(--spacing-4);
+            border-radius: var(--radius-base);
+            margin-top: var(--spacing-3);
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle-demo" onclick="toggleTheme()">Toggle Theme</button>
+    
+    <h1>Input Component Showcase</h1>
+    <p class="text-secondary">Comprehensive demonstration of all input component variants and states</p>
+    
+    <!-- Basic Inputs -->
+    <section class="showcase-section">
+        <h2>Basic Inputs</h2>
+        
+        <h3>Text Input</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="text-basic">Username</label>
+            <input type="text" id="text-basic" class="input" placeholder="Enter your username" />
+            <span class="input-group__help">Choose a unique username</span>
+        </div>
+        
+        <h3>Email Input</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="email-basic">Email Address</label>
+            <input type="email" id="email-basic" class="input" placeholder="you@example.com" />
+        </div>
+        
+        <h3>Password Input</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="password-basic">Password</label>
+            <input type="password" id="password-basic" class="input" placeholder="Enter password" />
+        </div>
+        
+        <h3>Search Input</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="search-basic">Search</label>
+            <input type="search" id="search-basic" class="input" placeholder="Search agents..." />
+        </div>
+        
+        <h3>Textarea</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="textarea-basic">Description</label>
+            <textarea id="textarea-basic" class="input" placeholder="Enter description..." rows="4"></textarea>
+        </div>
+    </section>
+    
+    <!-- Floating Labels -->
+    <section class="showcase-section">
+        <h2>Floating Labels (Requirement 10.1)</h2>
+        
+        <div class="demo-grid">
+            <div class="input-group input-group--floating">
+                <input type="text" id="float-text" class="input" placeholder=" " />
+                <label class="input-group__label" for="float-text">Full Name</label>
+            </div>
+            
+            <div class="input-group input-group--floating">
+                <input type="email" id="float-email" class="input" placeholder=" " />
+                <label class="input-group__label" for="float-email">Email Address</label>
+            </div>
+            
+            <div class="input-group input-group--floating">
+                <input type="tel" id="float-phone" class="input" placeholder=" " />
+                <label class="input-group__label" for="float-phone">Phone Number</label>
+            </div>
+            
+            <div class="input-group input-group--floating">
+                <textarea id="float-textarea" class="input" placeholder=" " rows="4"></textarea>
+                <label class="input-group__label" for="float-textarea">Message</label>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Input States -->
+    <section class="showcase-section">
+        <h2>Input States</h2>
+        
+        <h3>Focus State (Requirement 10.2)</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="focus-demo">Click to focus</label>
+            <input type="text" id="focus-demo" class="input" placeholder="Focus me to see border and shadow" />
+            <span class="input-group__help">Border color changes and shadow appears on focus</span>
+        </div>
+        
+        <h3>Error State (Requirement 10.3)</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="error-demo">Email</label>
+            <input type="email" id="error-demo" class="input input--error" value="invalid-email" />
+            <span class="input-group__error">Please enter a valid email address</span>
+        </div>
+        
+        <h3>Success State</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="success-demo">Username</label>
+            <input type="text" id="success-demo" class="input input--success" value="john_doe" />
+            <span class="input-group__success">Username is available!</span>
+        </div>
+        
+        <h3>Disabled State</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="disabled-demo">Disabled Input</label>
+            <input type="text" id="disabled-demo" class="input" value="Cannot edit this" disabled />
+        </div>
+    </section>
+    
+    <!-- Character Counter -->
+    <section class="showcase-section">
+        <h2>Character Counter (Requirement 10.4)</h2>
+        
+        <div class="input-group">
+            <label class="input-group__label" for="counter-demo">Bio</label>
+            <textarea id="counter-demo" class="input" maxlength="200" placeholder="Tell us about yourself..." rows="4"></textarea>
+            <span class="input-group__count" id="counter-display">0 / 200</span>
+        </div>
+        
+        <div class="input-group">
+            <label class="input-group__label" for="counter-warning">Short Message</label>
+            <textarea id="counter-warning" class="input" maxlength="50" placeholder="Keep it brief..." rows="3"></textarea>
+            <span class="input-group__count input-group__count--warning" id="counter-warning-display">0 / 50</span>
+        </div>
+    </section>
+    
+    <!-- Input with Icons -->
+    <section class="showcase-section">
+        <h2>Inputs with Icons</h2>
+        
+        <h3>Left Icon</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="icon-left">Email</label>
+            <div class="input-wrapper input-wrapper--icon-left">
+                <span class="input-wrapper__icon-left">📧</span>
+                <input type="email" id="icon-left" class="input" placeholder="you@example.com" />
+            </div>
+        </div>
+        
+        <h3>Right Icon</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="icon-right">Website</label>
+            <div class="input-wrapper input-wrapper--icon-right">
+                <input type="url" id="icon-right" class="input" placeholder="https://example.com" />
+                <span class="input-wrapper__icon-right">🌐</span>
+            </div>
+        </div>
+        
+        <h3>Password with Toggle Button</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="password-toggle">Password</label>
+            <div class="input-wrapper input-wrapper--icon-button">
+                <input type="password" id="password-toggle" class="input" placeholder="Enter password" />
+                <button type="button" class="input-wrapper__icon-button" onclick="togglePassword('password-toggle')" aria-label="Toggle password visibility">
+                    👁️
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Input Addons -->
+    <section class="showcase-section">
+        <h2>Input Addons</h2>
+        
+        <h3>Prefix Addon</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="addon-prefix">Website</label>
+            <div class="input-addon-group">
+                <span class="input-addon input-addon--prefix">https://</span>
+                <input type="text" id="addon-prefix" class="input" placeholder="example.com" />
+            </div>
+        </div>
+        
+        <h3>Suffix Addon</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="addon-suffix">Price</label>
+            <div class="input-addon-group">
+                <input type="number" id="addon-suffix" class="input" placeholder="0.00" />
+                <span class="input-addon input-addon--suffix">USD</span>
+            </div>
+        </div>
+        
+        <h3>Both Prefix and Suffix</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="addon-both">Amount</label>
+            <div class="input-addon-group">
+                <span class="input-addon input-addon--prefix">$</span>
+                <input type="number" id="addon-both" class="input" placeholder="0.00" />
+                <span class="input-addon input-addon--suffix">.00</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Input Sizes -->
+    <section class="showcase-section">
+        <h2>Input Sizes</h2>
+        
+        <h3>Small</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="size-small">Small Input</label>
+            <input type="text" id="size-small" class="input input--sm" placeholder="Small size" />
+        </div>
+        
+        <h3>Medium (Default)</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="size-medium">Medium Input</label>
+            <input type="text" id="size-medium" class="input" placeholder="Default size" />
+        </div>
+        
+        <h3>Large</h3>
+        <div class="input-group">
+            <label class="input-group__label" for="size-large">Large Input</label>
+            <input type="text" id="size-large" class="input input--lg" placeholder="Large size" />
+        </div>
+    </section>
+    
+    <!-- Required Fields -->
+    <section class="showcase-section">
+        <h2>Required Fields</h2>
+        
+        <div class="input-group">
+            <label class="input-group__label input-group__label--required" for="required-demo">Required Field</label>
+            <input type="text" id="required-demo" class="input" placeholder="This field is required" required />
+        </div>
+    </section>
+    
+    <!-- Complex Example -->
+    <section class="showcase-section">
+        <h2>Complex Form Example</h2>
+        
+        <form onsubmit="event.preventDefault(); alert('Form submitted!');">
+            <div class="input-group input-group--floating">
+                <input type="text" id="form-name" class="input" placeholder=" " required />
+                <label class="input-group__label input-group__label--required" for="form-name">Full Name</label>
+            </div>
+            
+            <div class="input-group input-group--floating">
+                <input type="email" id="form-email" class="input" placeholder=" " required />
+                <label class="input-group__label input-group__label--required" for="form-email">Email</label>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-group__label" for="form-password">Password</label>
+                <div class="input-wrapper input-wrapper--icon-button">
+                    <input type="password" id="form-password" class="input" placeholder="Enter password" required />
+                    <button type="button" class="input-wrapper__icon-button" onclick="togglePassword('form-password')" aria-label="Toggle password visibility">
+                        👁️
+                    </button>
+                </div>
+                <span class="input-group__help">Must be at least 8 characters</span>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-group__label" for="form-bio">Bio</label>
+                <textarea id="form-bio" class="input" maxlength="500" placeholder="Tell us about yourself..." rows="4"></textarea>
+                <span class="input-group__count" id="form-bio-count">0 / 500</span>
+            </div>
+            
+            <button type="submit" style="padding: var(--spacing-3) var(--spacing-6); background-color: var(--color-primary); color: white; border: none; border-radius: var(--radius-base); cursor: pointer; font-weight: var(--font-weight-medium); margin-top: var(--spacing-4);">
+                Submit Form
+            </button>
+        </form>
+    </section>
+    
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+        }
+        
+        // Password toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
+        
+        // Character counter
+        function updateCounter(textareaId, counterId) {
+            const textarea = document.getElementById(textareaId);
+            const counter = document.getElementById(counterId);
+            const maxLength = textarea.getAttribute('maxlength');
+            
+            textarea.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                counter.textContent = `${currentLength} / ${maxLength}`;
+                
+                // Update counter state
+                counter.classList.remove('input-group__count--warning', 'input-group__count--error');
+                
+                if (currentLength >= maxLength) {
+                    counter.classList.add('input-group__count--error');
+                } else if (currentLength >= maxLength * 0.8) {
+                    counter.classList.add('input-group__count--warning');
+                }
+            });
+        }
+        
+        // Initialize counters
+        updateCounter('counter-demo', 'counter-display');
+        updateCounter('counter-warning', 'counter-warning-display');
+        updateCounter('form-bio', 'form-bio-count');
+        
+        // Add has-value class for floating labels
+        document.querySelectorAll('.input-group--floating .input').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value) {
+                    this.classList.add('has-value');
+                } else {
+                    this.classList.remove('has-value');
+                }
+            });
+        });
+        
+        // Simulate form validation
+        const emailInput = document.getElementById('form-email');
+        if (emailInput) {
+            emailInput.addEventListener('blur', function() {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const errorSpan = this.parentElement.querySelector('.input-group__error');
+                
+                if (!emailRegex.test(this.value) && this.value) {
+                    this.classList.add('input--error');
+                    if (!errorSpan) {
+                        const error = document.createElement('span');
+                        error.className = 'input-group__error';
+                        error.textContent = 'Please enter a valid email address';
+                        this.parentElement.appendChild(error);
+                    }
+                } else {
+                    this.classList.remove('input--error');
+                    if (errorSpan) {
+                        errorSpan.remove();
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

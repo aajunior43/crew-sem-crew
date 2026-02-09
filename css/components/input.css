@@ -1,0 +1,559 @@
+/**
+ * Input Component Styles
+ * Agentes IMG² - Interface Modernization
+ * 
+ * This file contains all input component styles including:
+ * - Types: text, password, textarea, search
+ * - Floating label implementation
+ * - States: default, focus, error, success, disabled
+ * - Input group wrapper styles
+ * 
+ * Requirements: 10.1, 10.2, 10.3, 10.4
+ */
+
+/* ============================================================================
+   INPUT GROUP WRAPPER
+   ============================================================================ */
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+  width: 100%;
+}
+
+/* ============================================================================
+   BASE INPUT STYLES
+   ============================================================================ */
+
+.input {
+  /* Layout */
+  display: block;
+  width: 100%;
+  
+  /* Sizing */
+  padding: var(--spacing-3) var(--spacing-4);
+  min-height: 44px; /* Touch target size - Requirements 2.7, 11.2 */
+  
+  /* Typography */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  
+  /* Visual */
+  background-color: var(--color-bg-primary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-base);
+  
+  /* Transitions - Requirement 10.2 */
+  transition: all var(--transition-fast);
+  
+  /* Remove default appearance */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Placeholder styling */
+.input::placeholder {
+  color: var(--color-text-tertiary);
+  opacity: 1;
+}
+
+.input::-webkit-input-placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input::-moz-placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.input:-ms-input-placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* ============================================================================
+   INPUT STATES
+   ============================================================================ */
+
+/* Focus State - Requirement 10.2 */
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* Hover State */
+.input:hover:not(:disabled):not(:focus) {
+  border-color: var(--color-border-hover);
+}
+
+/* Error State - Requirement 10.3 */
+.input--error,
+.input.error {
+  border-color: var(--color-error);
+  background-color: var(--color-bg-primary);
+}
+
+.input--error:focus,
+.input.error:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Success State */
+.input--success,
+.input.success {
+  border-color: var(--color-success);
+  background-color: var(--color-bg-primary);
+}
+
+.input--success:focus,
+.input.success:focus {
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Disabled State */
+.input:disabled,
+.input[aria-disabled="true"] {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.6;
+  border-color: var(--color-border);
+}
+
+/* ============================================================================
+   INPUT TYPES
+   ============================================================================ */
+
+/* Text Input (default) */
+input[type="text"].input,
+input[type="email"].input,
+input[type="url"].input,
+input[type="tel"].input,
+input[type="number"].input {
+  /* Inherits base .input styles */
+}
+
+/* Password Input */
+input[type="password"].input {
+  font-family: var(--font-family-mono);
+  letter-spacing: 0.1em;
+}
+
+/* Search Input */
+input[type="search"].input {
+  padding-left: var(--spacing-10);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: var(--spacing-3) center;
+  background-size: 16px 16px;
+}
+
+/* Remove search input clear button in WebKit browsers */
+input[type="search"].input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Textarea */
+textarea.input {
+  min-height: 120px;
+  resize: vertical;
+  padding: var(--spacing-3) var(--spacing-4);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ============================================================================
+   FLOATING LABEL IMPLEMENTATION - Requirement 10.1
+   ============================================================================ */
+
+.input-group--floating {
+  position: relative;
+  margin-top: var(--spacing-5);
+}
+
+.input-group--floating .input {
+  padding: var(--spacing-4) var(--spacing-4) var(--spacing-2) var(--spacing-4);
+}
+
+.input-group--floating .input-group__label {
+  position: absolute;
+  left: var(--spacing-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-base);
+  pointer-events: none;
+  transition: all var(--transition-fast);
+  background-color: transparent;
+  padding: 0 var(--spacing-1);
+  z-index: 1;
+}
+
+/* Floating label active state (when input has focus or content) */
+.input-group--floating .input:focus ~ .input-group__label,
+.input-group--floating .input:not(:placeholder-shown) ~ .input-group__label,
+.input-group--floating .input.has-value ~ .input-group__label {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  background-color: var(--color-bg-primary);
+}
+
+/* Floating label for textarea */
+.input-group--floating textarea.input ~ .input-group__label {
+  top: var(--spacing-4);
+  transform: translateY(0);
+}
+
+.input-group--floating textarea.input:focus ~ .input-group__label,
+.input-group--floating textarea.input:not(:placeholder-shown) ~ .input-group__label,
+.input-group--floating textarea.input.has-value ~ .input-group__label {
+  top: 0;
+  transform: translateY(-50%);
+}
+
+/* Floating label error state */
+.input-group--floating .input--error:focus ~ .input-group__label,
+.input-group--floating .input--error:not(:placeholder-shown) ~ .input-group__label,
+.input-group--floating .input.error:focus ~ .input-group__label,
+.input-group--floating .input.error:not(:placeholder-shown) ~ .input-group__label {
+  color: var(--color-error);
+}
+
+/* Floating label success state */
+.input-group--floating .input--success:focus ~ .input-group__label,
+.input-group--floating .input--success:not(:placeholder-shown) ~ .input-group__label,
+.input-group--floating .input.success:focus ~ .input-group__label,
+.input-group--floating .input.success:not(:placeholder-shown) ~ .input-group__label {
+  color: var(--color-success);
+}
+
+/* ============================================================================
+   INPUT GROUP CHILDREN ELEMENTS
+   ============================================================================ */
+
+/* Label (non-floating) */
+.input-group__label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+/* Required indicator */
+.input-group__label--required::after {
+  content: " *";
+  color: var(--color-error);
+}
+
+/* Help Text */
+.input-group__help {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-2);
+}
+
+/* Error Message - Requirement 10.3 */
+.input-group__error {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  margin-top: var(--spacing-2);
+  font-weight: var(--font-weight-medium);
+}
+
+.input-group__error[hidden] {
+  display: none;
+}
+
+/* Success Message */
+.input-group__success {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-success);
+  margin-top: var(--spacing-2);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Character Count - Requirement 10.4 */
+.input-group__count {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  text-align: right;
+  margin-top: var(--spacing-1);
+}
+
+.input-group__count--warning {
+  color: var(--color-warning);
+}
+
+.input-group__count--error {
+  color: var(--color-error);
+}
+
+/* ============================================================================
+   INPUT WRAPPER (for icons and addons)
+   ============================================================================ */
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-wrapper .input {
+  flex: 1;
+}
+
+/* Input with left icon */
+.input-wrapper--icon-left .input {
+  padding-left: var(--spacing-10);
+}
+
+.input-wrapper__icon-left {
+  position: absolute;
+  left: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+/* Input with right icon */
+.input-wrapper--icon-right .input {
+  padding-right: var(--spacing-10);
+}
+
+.input-wrapper__icon-right {
+  position: absolute;
+  right: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+/* Icon button (e.g., password reveal toggle) */
+.input-wrapper__icon-button {
+  position: absolute;
+  right: var(--spacing-2);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: var(--spacing-2);
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-wrapper__icon-button:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-tertiary);
+}
+
+.input-wrapper__icon-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Adjust input padding when icon button is present */
+.input-wrapper--icon-button .input {
+  padding-right: var(--spacing-10);
+}
+
+/* ============================================================================
+   INPUT SIZES
+   ============================================================================ */
+
+/* Small Input */
+.input--sm {
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  min-height: 36px;
+}
+
+.input-group--floating .input--sm {
+  padding: var(--spacing-3) var(--spacing-3) var(--spacing-1) var(--spacing-3);
+}
+
+/* Large Input */
+.input--lg {
+  padding: var(--spacing-4) var(--spacing-5);
+  font-size: var(--font-size-lg);
+  min-height: 52px;
+}
+
+.input-group--floating .input--lg {
+  padding: var(--spacing-5) var(--spacing-5) var(--spacing-3) var(--spacing-5);
+}
+
+/* ============================================================================
+   INPUT ADDONS (prefix/suffix text)
+   ============================================================================ */
+
+.input-addon-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.input-addon {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--color-bg-tertiary);
+  border: 2px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.input-addon--prefix {
+  border-right: none;
+  border-top-left-radius: var(--radius-base);
+  border-bottom-left-radius: var(--radius-base);
+}
+
+.input-addon--suffix {
+  border-left: none;
+  border-top-right-radius: var(--radius-base);
+  border-bottom-right-radius: var(--radius-base);
+}
+
+.input-addon-group .input {
+  border-radius: 0;
+}
+
+.input-addon-group .input:first-child {
+  border-top-left-radius: var(--radius-base);
+  border-bottom-left-radius: var(--radius-base);
+}
+
+.input-addon-group .input:last-child {
+  border-top-right-radius: var(--radius-base);
+  border-bottom-right-radius: var(--radius-base);
+}
+
+/* ============================================================================
+   RESPONSIVE STYLES
+   ============================================================================ */
+
+/* Mobile: Ensure minimum font size to prevent zoom - Requirement 11.4 */
+@media (max-width: 767px) {
+  .input {
+    font-size: 16px; /* Minimum 16px to prevent iOS zoom */
+  }
+  
+  .input--sm {
+    font-size: 16px;
+  }
+  
+  /* Ensure touch targets are adequate */
+  .input {
+    min-height: 44px;
+  }
+  
+  .input-wrapper__icon-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ============================================================================
+   DARK THEME ADJUSTMENTS
+   ============================================================================ */
+
+[data-theme="dark"] .input {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+[data-theme="dark"] .input:disabled {
+  background-color: var(--color-bg-tertiary);
+}
+
+[data-theme="dark"] .input-addon {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .input-group--floating .input:focus ~ .input-group__label,
+[data-theme="dark"] .input-group--floating .input:not(:placeholder-shown) ~ .input-group__label,
+[data-theme="dark"] .input-group--floating .input.has-value ~ .input-group__label {
+  background-color: var(--color-bg-secondary);
+}
+
+[data-theme="dark"] input[type="search"].input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d1d5db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* ============================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================================================ */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .input {
+    border-width: 3px;
+  }
+  
+  .input:focus {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support - Requirements 12.4, 14.6 */
+@media (prefers-reduced-motion: reduce) {
+  .input,
+  .input-group__label,
+  .input-wrapper__icon-button {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+
+@media print {
+  .input {
+    border: 1px solid #000;
+    box-shadow: none !important;
+  }
+  
+  .input-wrapper__icon-button {
+    display: none;
+  }
+}

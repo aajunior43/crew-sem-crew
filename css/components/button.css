@@ -1,0 +1,470 @@
+/**
+ * Button Component Styles
+ * Agentes IMG² - Interface Modernization
+ * 
+ * This file contains all button component styles including:
+ * - Variants: primary, secondary, tertiary, danger
+ * - States: default, hover, active, disabled, loading
+ * - Sizes: small, medium, large
+ * - Special: icon buttons
+ * 
+ * Requirements: 10.5, 10.6, 15.2
+ */
+
+/* ============================================================================
+   BASE BUTTON STYLES
+   ============================================================================ */
+
+.btn {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  
+  /* Sizing */
+  padding: var(--spacing-3) var(--spacing-4);
+  min-height: 44px; /* Touch target size - Requirements 2.7, 11.2 */
+  
+  /* Typography */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  
+  /* Visual */
+  border: none;
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  user-select: none;
+  
+  /* Transitions */
+  transition: all var(--transition-fast);
+  
+  /* Prevent text selection */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Remove default button styles */
+.btn::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Focus state for accessibility */
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   BUTTON VARIANTS
+   ============================================================================ */
+
+/* Primary Button - Main actions (Play, Save) */
+.btn--primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--primary:active:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Secondary Button - Supporting actions (Load, Edit) */
+.btn--secondary {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--secondary:active:not(:disabled) {
+  background-color: var(--color-bg-tertiary);
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Tertiary Button - Low-emphasis actions (Cancel) */
+.btn--tertiary {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+}
+
+.btn--tertiary:hover:not(:disabled) {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.btn--tertiary:active:not(:disabled) {
+  background-color: var(--color-bg-secondary);
+}
+
+/* Danger Button - Destructive actions (Remove, Clear, Delete) */
+.btn--danger {
+  background-color: var(--color-error);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--danger:hover:not(:disabled) {
+  background-color: #dc2626; /* Red 600 */
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--danger:active:not(:disabled) {
+  background-color: #dc2626;
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Danger Outline Variant - Less aggressive destructive actions */
+.btn--danger-outline {
+  background-color: transparent;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+.btn--danger-outline:hover:not(:disabled) {
+  background-color: var(--color-error);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--danger-outline:active:not(:disabled) {
+  background-color: #dc2626;
+  color: #ffffff;
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================================
+   BUTTON STATES
+   ============================================================================ */
+
+/* Disabled State - Requirements 10.6, 15.7 */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+
+/* Loading State - Requirements 6.3 */
+.btn--loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.btn--loading .btn__text {
+  visibility: hidden;
+}
+
+.btn--loading .btn__icon {
+  visibility: hidden;
+}
+
+.btn--loading .btn__spinner {
+  display: block;
+}
+
+/* ============================================================================
+   BUTTON SIZES
+   ============================================================================ */
+
+/* Small Button */
+.btn--sm {
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  min-height: 36px;
+  gap: var(--spacing-1);
+}
+
+/* Medium Button (default) */
+.btn--md {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-base);
+  min-height: 44px;
+  gap: var(--spacing-2);
+}
+
+/* Large Button */
+.btn--lg {
+  padding: var(--spacing-4) var(--spacing-6);
+  font-size: var(--font-size-lg);
+  min-height: 52px;
+  gap: var(--spacing-2);
+}
+
+/* ============================================================================
+   BUTTON MODIFIERS
+   ============================================================================ */
+
+/* Full Width Button */
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+/* Icon Only Button */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2);
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  border-radius: var(--radius-base);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.icon-btn:hover:not(:disabled) {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.icon-btn:active:not(:disabled) {
+  background-color: var(--color-bg-secondary);
+  transform: scale(0.95);
+}
+
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Small Icon Button */
+.icon-btn--sm {
+  padding: var(--spacing-1);
+  min-width: 36px;
+  min-height: 36px;
+}
+
+/* Large Icon Button */
+.icon-btn--lg {
+  padding: var(--spacing-3);
+  min-width: 52px;
+  min-height: 52px;
+}
+
+/* ============================================================================
+   BUTTON CHILDREN ELEMENTS
+   ============================================================================ */
+
+/* Button Icon */
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.btn__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* Button Text */
+.btn__text {
+  display: inline-block;
+}
+
+/* Button Spinner (Loading State) */
+.btn__spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1em;
+  height: 1em;
+}
+
+.btn__spinner svg {
+  width: 100%;
+  height: 100%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================================
+   BUTTON GROUPS
+   ============================================================================ */
+
+/* Button Group Container - Requirements 15.4 */
+.button-group {
+  display: inline-flex;
+  gap: var(--spacing-2); /* Minimum 8px gap - Requirements 15.4 */
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Vertical Button Group */
+.button-group--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.button-group--vertical .btn {
+  width: 100%;
+}
+
+/* Attached Button Group (no gap) */
+.button-group--attached {
+  gap: 0;
+}
+
+.button-group--attached .btn:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.button-group--attached .btn:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.button-group--attached .btn:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* ============================================================================
+   RESPONSIVE STYLES
+   ============================================================================ */
+
+/* Mobile: Stack buttons vertically - Requirements 15.6 */
+@media (max-width: 767px) {
+  .button-group--mobile-stack {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .button-group--mobile-stack .btn {
+    width: 100%;
+  }
+  
+  /* Ensure touch targets are adequate on mobile */
+  .btn {
+    min-height: 44px;
+  }
+  
+  .icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ============================================================================
+   DARK THEME ADJUSTMENTS
+   ============================================================================ */
+
+[data-theme="dark"] .btn--secondary {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .btn--secondary:hover:not(:disabled) {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border-hover);
+}
+
+[data-theme="dark"] .btn--tertiary:hover:not(:disabled) {
+  background-color: var(--color-bg-tertiary);
+}
+
+[data-theme="dark"] .icon-btn:hover:not(:disabled) {
+  background-color: var(--color-bg-tertiary);
+}
+
+/* ============================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================================================ */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .btn--primary,
+  .btn--danger {
+    border-color: transparent;
+  }
+}
+
+/* Reduced motion support - Requirements 12.4, 14.6 */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .icon-btn,
+  .btn__spinner svg {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  
+  .btn:hover:not(:disabled),
+  .btn--primary:hover:not(:disabled),
+  .btn--secondary:hover:not(:disabled),
+  .btn--danger:hover:not(:disabled) {
+    transform: none !important;
+  }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+
+@media print {
+  .btn,
+  .icon-btn {
+    box-shadow: none !important;
+    transform: none !important;
+  }
+}

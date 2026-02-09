@@ -3,69 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agentes IMG²</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Agentes AI - Sistema Inteligente de Agentes v2.0</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/neomorphism.css">
 </head>
 <body>
-    <!-- Botão de tema -->
-    <button class="theme-toggle" id="themeToggle" data-tooltip="Alternar tema escuro/claro">
-        🌙
-    </button>
+    <!-- Header -->
+    <header class="neo-header">
+        <div class="neo-header-content">
+            <div class="neo-logo">
+                <div class="neo-logo-icon">🤖</div>
+                <div class="neo-logo-text">
+                    <h1>Agentes AI</h1>
+                    <p>Sistema Inteligente de Agentes Especializados</p>
+                </div>
+            </div>
+            
+            <div class="neo-header-actions">
+                <div class="neo-theme-toggle" id="themeToggle" title="Alternar tema">
+                    <div class="neo-theme-toggle-slider">🌙</div>
+                </div>
+                <button class="neo-btn neo-btn--secondary" id="workflowModeBtn">
+                    <span>⚡</span>
+                    <span>Modo: Sequencial</span>
+                </button>
+                <button class="neo-btn neo-btn--secondary" id="templatesBtn">
+                    <span>📋</span>
+                    <span>Templates</span>
+                </button>
+            </div>
+        </div>
+    </header>
 
-    <div class="menu" id="menu">
-        <h2>Menu</h2>
-        <div id="menuItems">
-            <div class="menu-item" draggable="true">Gerente</div>
-            <div class="menu-item" draggable="true">Pesquisador</div>
-            <div class="menu-item" draggable="true">Escritor</div>
-            <div class="menu-item" draggable="true">Publicador</div>
-        </div>
+    <!-- Container Principal -->
+    <div class="neo-container">
+        <!-- Sidebar Esquerda - Menu de Agentes -->
+        <aside class="neo-sidebar-left">
+            <!-- Configuração da API -->
+            <div class="neo-card">
+                <div class="neo-card-header">
+                    <h3 class="neo-card-title">
+                        <span>🔑</span>
+                        <span>Configuração da API</span>
+                    </h3>
+                </div>
+                
+                <div class="neo-input-group">
+                    <label class="neo-label" for="apiProvider">Provedor</label>
+                    <select id="apiProvider" class="neo-select">
+                        <option value="">Selecione...</option>
+                        <option value="openai">OpenAI</option>
+                        <option value="gemini">Google Gemini</option>
+                        <option value="openrouter">OpenRouter</option>
+                    </select>
+                </div>
+                
+                <div class="neo-input-group">
+                    <label class="neo-label" for="apiKeyInput">API Key</label>
+                    <input 
+                        type="password" 
+                        id="apiKeyInput" 
+                        class="neo-input" 
+                        placeholder="Cole sua API Key"
+                    >
+                </div>
+                
+                <button id="loadModelsButton" class="neo-btn neo-btn--primary neo-btn--block" disabled>
+                    <span>🔍</span>
+                    <span>Buscar Modelos</span>
+                </button>
+                
+                <div id="modelSelectionContainer" style="display: none;">
+                    <div class="neo-input-group">
+                        <label class="neo-label" for="modelSelect">Modelo</label>
+                        <select id="modelSelect" class="neo-select">
+                            <option value="">Selecione um modelo</option>
+                        </select>
+                        <small id="modelInfo" style="color: var(--neo-text-tertiary); font-size: 0.75rem; margin-top: 0.25rem; display: block;"></small>
+                    </div>
+                </div>
+                
+                <div id="apiStatus" style="display: none; margin-top: 1rem;"></div>
+            </div>
+            
+            <!-- Menu de Agentes -->
+            <div class="neo-card" style="margin-top: 1.5rem;">
+                <div class="neo-card-header">
+                    <h3 class="neo-card-title">
+                        <span>👥</span>
+                        <span>Agentes Disponíveis</span>
+                    </h3>
+                    <p class="neo-card-description">Arraste para a área de trabalho</p>
+                </div>
+                
+                <!-- Busca de Agentes -->
+                <div class="neo-category-search">
+                    <input 
+                        type="text" 
+                        id="agentSearch" 
+                        placeholder="🔍 Buscar agentes..."
+                        autocomplete="off"
+                    >
+                </div>
+                
+                <div class="neo-menu-items" id="menuItems">
+                    <!-- Agentes serão carregados aqui -->
+                </div>
+            </div>
+            
+            <!-- Input Global -->
+            <div class="neo-card" style="margin-top: 1.5rem;">
+                <div class="neo-card-header">
+                    <h3 class="neo-card-title">
+                        <span>📄</span>
+                        <span>Entrada Global</span>
+                    </h3>
+                    <p class="neo-card-description">Texto ou arquivo para todos os agentes</p>
+                </div>
+                
+                <div class="neo-input-group">
+                    <label class="neo-label" for="globalInput">Texto de Entrada</label>
+                    <textarea 
+                        id="globalInput" 
+                        class="neo-textarea" 
+                        rows="6"
+                        placeholder="Digite o texto que será usado como entrada para todos os agentes..."
+                    ></textarea>
+                </div>
+                
+                <div class="neo-input-group">
+                    <label class="neo-label" for="fileInput">Ou Carregar Arquivo</label>
+                    <input 
+                        type="file" 
+                        id="fileInput" 
+                        class="neo-input"
+                        accept=".txt,.md,.json,.csv"
+                    >
+                    <small style="color: var(--neo-text-tertiary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">
+                        Formatos: .txt, .md, .json, .csv
+                    </small>
+                </div>
+                
+                <button id="clearInputBtn" class="neo-btn neo-btn--secondary neo-btn--block">
+                    <span>🗑️</span>
+                    <span>Limpar Entrada</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Área Central - Workspace -->
+        <main class="neo-main">
+            <div class="neo-card">
+                <div class="neo-card-header">
+                    <h3 class="neo-card-title">
+                        <span>💼</span>
+                        <span>Área de Trabalho</span>
+                    </h3>
+                    <p class="neo-card-description">Configure e execute seus agentes</p>
+                </div>
+                
+                <div class="neo-workspace" id="mainArea">
+                    <div class="neo-dropped-items" id="droppedItems">
+                        <div class="neo-empty-state">
+                            <div class="neo-empty-state-icon">📦</div>
+                            <p class="neo-empty-state-text">Arraste agentes do menu lateral para começar</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <button id="playButton" class="neo-btn neo-btn--primary" style="flex: 1;">
+                        <span>▶️</span>
+                        <span>Executar Agentes</span>
+                    </button>
+                    <button id="saveButton" class="neo-btn neo-btn--secondary">
+                        <span>💾</span>
+                        <span>Salvar</span>
+                    </button>
+                    <button id="loadButton" class="neo-btn neo-btn--secondary">
+                        <span>📂</span>
+                        <span>Carregar</span>
+                    </button>
+                    <div style="position: relative;">
+                        <button id="exportButton" class="neo-btn neo-btn--secondary" style="display: none;">
+                            <span>📥</span>
+                            <span>Exportar</span>
+                        </button>
+                        <div id="exportMenu" class="neo-export-menu" style="display: none;"></div>
+                    </div>
+                    <button id="historyButton" class="neo-btn neo-btn--secondary">
+                        <span>📜</span>
+                        <span>Histórico</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Resultados -->
+            <div id="resultsSection" class="neo-card" style="margin-top: 1.5rem; display: none;">
+                <div class="neo-card-header">
+                    <h3 class="neo-card-title">
+                        <span>📊</span>
+                        <span>Resultados da Execução</span>
+                    </h3>
+                </div>
+                
+                <div class="neo-results" id="playArea">
+                    <!-- Resultados serão exibidos aqui -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar Direita - Detalhes -->
+        <aside class="neo-sidebar-right">
+            <div class="neo-card">
+                <div class="neo-card-header">
+                    <h3 class="neo-card-title">
+                        <span>📝</span>
+                        <span>Detalhes do Agente</span>
+                    </h3>
+                </div>
+                
+                <div id="detailsEmptyState" class="neo-empty-state">
+                    <div class="neo-empty-state-icon">👆</div>
+                    <p class="neo-empty-state-text">Selecione um agente para ver os detalhes</p>
+                </div>
+                
+                <div id="detailsContent" style="display: none;">
+                    <div id="agentRoleBadge" class="neo-badge neo-badge--primary" style="margin-bottom: 1rem; display: none;"></div>
+                    
+                    <div class="neo-input-group">
+                        <label class="neo-label">Instruções</label>
+                        <p id="itemDetails" style="color: var(--neo-text-primary); line-height: 1.6;"></p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button id="editButton" class="neo-btn neo-btn--secondary" style="flex: 1; display: none;">
+                            <span>✏️</span>
+                            <span>Editar</span>
+                        </button>
+                        <button id="renameButton" class="neo-btn neo-btn--secondary" style="flex: 1; display: none;">
+                            <span>🏷️</span>
+                            <span>Renomear</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Formulário de Edição -->
+                    <form id="editForm" style="display: none; margin-top: 1rem;">
+                        <div class="neo-input-group">
+                            <label class="neo-label" for="editInput">Editar Instruções</label>
+                            <textarea id="editInput" class="neo-textarea" rows="6"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button type="submit" class="neo-btn neo-btn--primary" style="flex: 1;">
+                                <span>💾</span>
+                                <span>Salvar</span>
+                            </button>
+                            <button type="button" class="neo-btn neo-btn--secondary" onclick="document.getElementById('editForm').style.display='none'; document.getElementById('editButton').style.display='flex'; document.getElementById('renameButton').style.display='flex';">
+                                <span>❌</span>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Formulário de Renomeação -->
+                    <form id="renameForm" style="display: none; margin-top: 1rem;">
+                        <div class="neo-input-group">
+                            <label class="neo-label" for="renameInput">Novo Nome</label>
+                            <input type="text" id="renameInput" class="neo-input">
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button type="submit" class="neo-btn neo-btn--primary" style="flex: 1;">
+                                <span>✅</span>
+                                <span>Renomear</span>
+                            </button>
+                            <button type="button" class="neo-btn neo-btn--secondary" onclick="document.getElementById('renameForm').style.display='none'; document.getElementById('editButton').style.display='flex'; document.getElementById('renameButton').style.display='flex';">
+                                <span>❌</span>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Estatísticas -->
+            <div class="neo-card" style="margin-top: 1.5rem;">
+                <div class="neo-card-header">
+                    <h3 class="neo-card-title">
+                        <span>📈</span>
+                        <span>Estatísticas</span>
+                    </h3>
+                </div>
+                
+                <div id="statsContent">
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--neo-text-secondary);">Execuções:</span>
+                            <span id="statExecutions" style="color: var(--neo-accent-primary); font-weight: 600;">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--neo-text-secondary);">Agentes:</span>
+                            <span id="statAgents" style="color: var(--neo-accent-success); font-weight: 600;">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--neo-text-secondary);">Tokens:</span>
+                            <span id="statTokens" style="color: var(--neo-accent-warning); font-weight: 600;">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </div>
-    
-    <div class="main-area" id="mainArea">
-        <b>Esta é um protótipo para testes, não coloque informações confidenciais e não esqueça de remover as api-keys testadas após os testes</b>
-        <form id="newItemForm">
-            <input type="text" id="newItemInput" placeholder="Nome do novo item" data-tooltip="Digite o nome do novo agente">
-            <button type="submit" data-tooltip="Adicionar agente ao menu">Adicionar novo item</button>
-        </form>
-        <div class="action-buttons">
-            <button id="editButton" style="display: none;" data-tooltip="Editar detalhes do item selecionado">Editar</button>
-            <button id="renameButton" style="display: none;" data-tooltip="Renomear o item selecionado">Renomear</button>
-            <button id="playButton" data-tooltip="Executar consultas GPT-4 para todos os itens">Play</button>
-            <button id="saveButton" data-tooltip="Salvar configuração atual">Salvar</button>
-            <button id="loadButton" data-tooltip="Carregar configuração salva">Carregar</button>
-        </div>
-        <form id="editForm" style="display: none;">
-            <textarea id="editInput" placeholder="Editar detalhes do item" data-tooltip="Digite os novos detalhes para o item"></textarea>
-            <button type="submit" data-tooltip="Salvar alterações">Salvar</button>
-        </form>
-        <form id="renameForm" style="display: none;">
-            <input type="text" id="renameInput" placeholder="Novo nome" data-tooltip="Digite o novo nome para o item">
-            <button type="submit" data-tooltip="Confirmar renomeação">Renomear</button>
-        </form>
-        <div class="api-key-section">
-            <input type="password" id="apiKeyInput" placeholder="Sua API Key do OpenAI" data-tooltip="Cole sua API Key do OpenAI aqui (sk-...)">
-        </div>
-        <h2>Área Principal</h2>
-        <div id="droppedItems"></div>
-        <div id="playArea"></div>
-    </div>
-    
-    <div class="details" id="details">
-        <h2>Detalhes</h2>
-        <p id="itemDetails"></p>
-        <button id="editButton">Editar detalhes</button>
-        <button id="renameButton">Renomear</button>
-        <form id="editForm">
-            <textarea id="editInput" rows="4"></textarea>
-            <button type="submit">Salvar</button>
-        </form>
-        <form id="renameForm">
-            <input type="text" id="renameInput" placeholder="Novo nome">
-            <button type="submit">Salvar nome</button>
-        </form>
-    </div>
-    
+
+    <!-- Footer -->
+    <footer class="neo-footer">
+        <p class="neo-footer-text">
+            Desenvolvido por <a href="#" class="neo-footer-dev">Aleksandro Alves</a>
+        </p>
+        <p class="neo-footer-text" style="margin-top: 0.5rem; font-size: 0.75rem;">
+            © 2024 Agentes AI - Todos os direitos reservados
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/agent-roles.js"></script>
+    <script src="js/force-load-agents.js"></script>
+    <script src="js/workflow-templates.js"></script>
+    <script src="js/context-manager.js"></script>
+    <script src="js/workflow-manager.js"></script>
+    <script src="js/template-manager.js"></script>
+    <script src="js/api-manager.js"></script>
+    <script src="js/ux-improvements.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
