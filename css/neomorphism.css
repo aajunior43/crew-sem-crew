@@ -165,8 +165,9 @@ body {
     display: grid;
     grid-template-columns: 340px 1fr 360px;
     gap: var(--neo-spacing-2xl);
-    min-height: calc(100vh - 180px);
-    align-items: start;
+    height: calc(100vh - 120px); /* Altura fixa baseada no viewport */
+    align-items: stretch; /* Estica os filhos */
+    overflow: hidden;
 }
 
 /* Cards Neomorphism */
@@ -286,7 +287,7 @@ body {
 
 /* Inputs Neomorphism */
 .neo-input-group {
-    margin-bottom: var(--neo-spacing-lg);
+    margin-bottom: var(--neo-spacing-md); /* Margem reduzida */
 }
 
 .neo-label {
@@ -302,12 +303,12 @@ body {
 .neo-select,
 .neo-textarea {
     width: 100%;
-    padding: var(--neo-spacing-md) var(--neo-spacing-lg);
+    padding: var(--neo-spacing-sm) var(--neo-spacing-md); /* Padding reduzido */
     border-radius: var(--neo-radius-md);
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: var(--neo-bg-primary);
     color: var(--neo-text-primary);
-    font-size: 0.9375rem;
+    font-size: 0.875rem; /* Fonte menor */
     box-shadow: var(--neo-shadow-pressed);
     transition: all var(--neo-transition-base);
     font-family: inherit;
@@ -347,15 +348,15 @@ body {
 
 /* Menu Items Neomorphism */
 .neo-menu-item {
-    padding: var(--neo-spacing-md) var(--neo-spacing-lg);
-    border-radius: var(--neo-radius-md);
+    padding: var(--neo-spacing-sm) var(--neo-spacing-md); /* Padding reduzido */
+    border-radius: var(--neo-radius-sm); /* Border radius menor */
     background: var(--neo-bg-primary);
     box-shadow: var(--neo-shadow-soft);
     cursor: grab;
     transition: all var(--neo-transition-base);
     display: flex;
     align-items: center;
-    gap: var(--neo-spacing-md);
+    gap: var(--neo-spacing-sm); /* Gap reduzido */
     border: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
     overflow: hidden;
@@ -364,15 +365,15 @@ body {
 .neo-menu-item::after {
     content: '⋮⋮';
     position: absolute;
-    right: var(--neo-spacing-md);
+    right: var(--neo-spacing-sm);
     color: var(--neo-text-tertiary);
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     opacity: 0;
     transition: opacity var(--neo-transition-fast);
 }
 
 .neo-menu-item:hover {
-    transform: translateX(6px);
+    transform: translateX(4px); /* Movimento menor */
     box-shadow: var(--neo-shadow-raised);
     border-color: var(--neo-accent-primary);
     background: linear-gradient(135deg, var(--neo-bg-primary), rgba(0, 212, 255, 0.03));
@@ -388,7 +389,7 @@ body {
 }
 
 .neo-menu-item-icon {
-    font-size: 1.5rem;
+    font-size: 1.25rem; /* Ícone menor */
     filter: drop-shadow(0 0 8px currentColor);
     flex-shrink: 0;
 }
@@ -396,8 +397,9 @@ body {
 .neo-menu-item-text {
     font-weight: 500;
     color: var(--neo-text-primary);
-    font-size: 0.9375rem;
+    font-size: 0.8125rem; /* Fonte menor */
     flex: 1;
+    line-height: 1.3;
 }
 
 /* Dropped Items (Workspace) */
@@ -1548,9 +1550,9 @@ input[type="file"].neo-input::file-selector-button:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.875rem 1rem;
+    padding: 0.5rem 0.75rem; /* Padding reduzido */
     background: var(--neo-bg-secondary);
-    border-radius: var(--neo-radius-md);
+    border-radius: var(--neo-radius-sm); /* Border radius menor */
     cursor: pointer;
     user-select: none;
     transition: var(--neo-transition-base);
@@ -1570,7 +1572,7 @@ input[type="file"].neo-input::file-selector-button:hover {
 }
 
 .neo-category-icon {
-    font-size: 1.25rem;
+    font-size: 1rem; /* Ícone menor */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1578,9 +1580,10 @@ input[type="file"].neo-input::file-selector-button:hover {
 
 .neo-category-name {
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 0.8125rem; /* Fonte menor */
     color: var(--neo-text-primary);
     letter-spacing: 0.01em;
+    line-height: 1.3;
 }
 
 .neo-category-count {
@@ -1833,13 +1836,14 @@ input[type="file"].neo-input::file-selector-button:hover {
     display: flex;
     flex-direction: column;
     gap: var(--neo-spacing-lg);
-    max-height: calc(100vh - 140px);
+    height: 100%; /* Usa toda altura do grid */
     overflow: hidden;
 }
 
-/* Cards de configuração e input global - altura fixa */
+/* Cards de configuração - altura fixa e compacta */
 .neo-sidebar-left > .neo-card:not(:has(.neo-menu-items)) {
     flex-shrink: 0; /* Não encolhe */
+    padding: var(--neo-spacing-md) var(--neo-spacing-lg); /* Padding reduzido */
 }
 
 /* Card de agentes - ocupa espaço restante */
@@ -1849,12 +1853,27 @@ input[type="file"].neo-input::file-selector-button:hover {
     flex-direction: column;
     min-height: 0; /* Importante para flex funcionar */
     overflow: hidden;
+    padding: var(--neo-spacing-md) var(--neo-spacing-lg); /* Padding reduzido */
 }
 
-/* Header e busca do card de agentes - fixos */
-.neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-card-header,
+/* Header e busca do card de agentes - fixos e compactos */
+.neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-card-header {
+    flex-shrink: 0;
+    margin-bottom: var(--neo-spacing-sm);
+}
+
+.neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-card-title {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-card-description {
+    font-size: 0.75rem;
+}
+
 .neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-category-search {
     flex-shrink: 0;
+    margin-bottom: var(--neo-spacing-sm);
 }
 
 /* Lista de agentes - área com scroll */
@@ -1866,12 +1885,12 @@ input[type="file"].neo-input::file-selector-button:hover {
     padding-right: 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: var(--neo-spacing-sm);
+    gap: var(--neo-spacing-xs); /* Gap reduzido */
 }
 
-/* Categorias de agentes */
+/* Categorias de agentes - mais compactas */
 .neo-category-container {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 /* Scroll suave e estilizado */
