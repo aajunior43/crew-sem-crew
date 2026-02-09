@@ -165,9 +165,8 @@ body {
     display: grid;
     grid-template-columns: 340px 1fr 360px;
     gap: var(--neo-spacing-2xl);
-    height: calc(100vh - 120px); /* Altura fixa baseada no viewport */
-    align-items: stretch; /* Estica os filhos */
-    overflow: hidden;
+    min-height: calc(100vh - 120px); /* Altura mínima em vez de fixa */
+    align-items: start; /* Volta para start */
 }
 
 /* Cards Neomorphism */
@@ -1835,9 +1834,33 @@ input[type="file"].neo-input::file-selector-button:hover {
 .neo-sidebar-left {
     display: flex;
     flex-direction: column;
-    gap: var(--neo-spacing-lg);
-    height: 100%; /* Usa toda altura do grid */
-    overflow: hidden;
+    gap: var(--neo-spacing-md); /* Gap reduzido */
+    position: sticky;
+    top: var(--neo-spacing-xl);
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.5rem;
+}
+
+/* Scroll da sidebar */
+.neo-sidebar-left::-webkit-scrollbar {
+    width: 8px;
+}
+
+.neo-sidebar-left::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.neo-sidebar-left::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.3);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.neo-sidebar-left::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 212, 255, 0.5);
 }
 
 /* Cards de configuração - altura fixa e compacta */
@@ -1846,13 +1869,11 @@ input[type="file"].neo-input::file-selector-button:hover {
     padding: var(--neo-spacing-md) var(--neo-spacing-lg); /* Padding reduzido */
 }
 
-/* Card de agentes - ocupa espaço restante */
+/* Card de agentes - altura automática */
 .neo-sidebar-left > .neo-card:has(.neo-menu-items) {
-    flex: 1;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    min-height: 0; /* Importante para flex funcionar */
-    overflow: hidden;
     padding: var(--neo-spacing-md) var(--neo-spacing-lg); /* Padding reduzido */
 }
 
@@ -1876,13 +1897,8 @@ input[type="file"].neo-input::file-selector-button:hover {
     margin-bottom: var(--neo-spacing-sm);
 }
 
-/* Lista de agentes - área com scroll */
+/* Lista de agentes - altura automática */
 .neo-sidebar-left .neo-menu-items {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    min-height: 0;
-    padding-right: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: var(--neo-spacing-xs); /* Gap reduzido */
@@ -1893,28 +1909,8 @@ input[type="file"].neo-input::file-selector-button:hover {
     margin-bottom: 0.25rem;
 }
 
-/* Scroll suave e estilizado */
-.neo-menu-items::-webkit-scrollbar {
-    width: 8px;
-}
-
-.neo-menu-items::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-}
-
-.neo-menu-items::-webkit-scrollbar-thumb {
-    background: rgba(0, 212, 255, 0.3);
-    border-radius: 4px;
-    transition: background 0.3s ease;
-}
-
-.neo-menu-items::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 212, 255, 0.5);
-}
-
 /* Firefox */
-.neo-menu-items {
+.neo-sidebar-left {
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 212, 255, 0.3) rgba(0, 0, 0, 0.1);
 }
