@@ -346,31 +346,6 @@ body {
 }
 
 /* Menu Items Neomorphism */
-.neo-menu-items {
-    display: flex;
-    flex-direction: column;
-    gap: var(--neo-spacing-sm);
-    max-height: 600px;
-    overflow-y: auto;
-    padding-right: var(--neo-spacing-xs);
-    margin-top: var(--neo-spacing-md);
-}
-
-/* Category Header */
-.menu-category-header {
-    padding: 12px 16px;
-    font-size: 0.85em;
-    color: #888;
-    background: rgba(0,0,0,0.2);
-    border-radius: 8px;
-    margin: 12px 0 4px 0;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-left: 3px solid var(--neo-accent-primary);
-    box-shadow: var(--neo-shadow-soft);
-}
-
 .neo-menu-item {
     padding: var(--neo-spacing-md) var(--neo-spacing-lg);
     border-radius: var(--neo-radius-md);
@@ -823,24 +798,13 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.neo-sidebar-left,
 .neo-sidebar-right {
     display: flex;
     flex-direction: column;
     gap: var(--neo-spacing-lg);
-    height: 100%; /* Altura total disponível */
 }
 
 /* Card de agentes com scroll interno */
-.neo-sidebar-left > .neo-card:has(.neo-menu-items) {
-    display: flex;
-    flex-direction: column;
-    flex: 1; /* Ocupa espaço disponível */
-    min-height: 0; /* Permite que o flex funcione corretamente */
-    overflow: hidden;
-}
-
-/* Header do card de agentes fixo */
 .neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-card-header {
     flex-shrink: 0; /* Não encolhe */
 }
@@ -1103,28 +1067,6 @@ input[type="file"].neo-input::file-selector-button:hover {
     overflow: hidden; /* Sidebar não rola */
     display: flex;
     flex-direction: column;
-}
-
-/* Apenas a lista de agentes rola */
-.neo-menu-items {
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex: 1;
-    padding-right: 0.5rem;
-}
-
-/* Scroll suave para lista de agentes */
-.neo-menu-items::-webkit-scrollbar {
-    width: 6px;
-}
-
-.neo-menu-items::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
-}
-
-.neo-menu-items::-webkit-scrollbar-track {
-    background: transparent;
 }
 
 /* Scroll suave para sidebar direito */
@@ -1883,12 +1825,16 @@ input[type="file"].neo-input::file-selector-button:hover {
 
 
 /* ============================================
-   LAYOUT FIXO DO SIDEBAR ESQUERDO
+   LAYOUT FIXO DO SIDEBAR ESQUERDO - VERSÃO CONSOLIDADA
    ============================================ */
 
 /* Container principal do sidebar */
 .neo-sidebar-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-spacing-lg);
     max-height: calc(100vh - 140px);
+    overflow: hidden;
 }
 
 /* Cards de configuração e input global - altura fixa */
@@ -1901,12 +1847,13 @@ input[type="file"].neo-input::file-selector-button:hover {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 300px; /* Altura mínima */
+    min-height: 0; /* Importante para flex funcionar */
     overflow: hidden;
 }
 
-/* Conteúdo do card de agentes */
-.neo-sidebar-left > .neo-card:has(.neo-menu-items) > * {
+/* Header e busca do card de agentes - fixos */
+.neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-card-header,
+.neo-sidebar-left > .neo-card:has(.neo-menu-items) .neo-category-search {
     flex-shrink: 0;
 }
 
@@ -1917,6 +1864,9 @@ input[type="file"].neo-input::file-selector-button:hover {
     overflow-x: hidden;
     min-height: 0;
     padding-right: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--neo-spacing-sm);
 }
 
 /* Categorias de agentes */
