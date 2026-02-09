@@ -20,7 +20,7 @@ Sistema completo de agentes especializados com workflows inteligentes e interfac
 
 ## 🚀 Demo Online
 
-🔗 **[Ver Demo ao Vivo](https://seu-usuario.github.io/crew-sem-crew)**
+🔗 **[Ver Repositório](https://github.com/aajunior43/crew-sem-crew)**
 
 ## 📋 Índice
 
@@ -37,27 +37,52 @@ Sistema completo de agentes especializados com workflows inteligentes e interfac
 ### Pré-requisitos
 
 - Navegador moderno (Chrome, Firefox, Edge, Safari)
-- Python 3.x ou Node.js (para servidor local)
+- Python 3.x (para servidor local)
 - API Key de um dos provedores suportados
 
 ### Instalação Rápida
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/crew-sem-crew.git
+git clone https://github.com/aajunior43/crew-sem-crew.git
 
 # Entre na pasta
 cd crew-sem-crew
-
-# Inicie um servidor local
-python -m http.server 8000
-
-# Ou com Node.js
-npx http-server -p 8000
-
-# Acesse no navegador
-http://localhost:8000
 ```
+
+### 🚀 Como Executar
+
+#### Método 1: Arquivo .bat (Windows - Recomendado)
+
+1. **Duplo clique** no arquivo `EXECUTAR.bat`
+2. O servidor será iniciado automaticamente
+3. O navegador abrirá em `http://localhost:8000`
+4. Pronto! O sistema está rodando
+
+⚠️ **Importante**: Mantenha a janela do terminal aberta enquanto usar o sistema
+
+#### Método 2: Linha de Comando
+
+**Windows (PowerShell ou CMD):**
+```bash
+python -m http.server 8000
+```
+
+**Linux/Mac:**
+```bash
+python3 -m http.server 8000
+```
+
+Depois acesse: `http://localhost:8000`
+
+### ⚠️ Por que preciso de um servidor?
+
+O sistema carrega 113 agentes de arquivos JSON. Por questões de segurança, navegadores bloqueiam requisições de arquivos locais (CORS). O servidor HTTP resolve isso.
+
+### 🛑 Parar o Servidor
+
+- **Método 1**: Duplo clique em `PARAR-SERVIDOR.bat`
+- **Método 2**: Pressione `Ctrl+C` na janela do terminal
 
 ## 🎯 Uso Rápido
 
@@ -146,18 +171,44 @@ Criação de marca e identidade visual (6 agentes)
 ### 10. 🛒 Setup de E-commerce
 Estruturação completa de loja virtual (6 agentes)
 
-## 📚 Documentação
+## 📚 Funcionalidades Completas
 
-### Guias Principais
-- [📖 Workflows Inteligentes](WORKFLOWS-INTELIGENTES.md) - Guia completo dos workflows
-- [🎓 Engenharia de Prompt](ENGENHARIA-DE-PROMPT-APLICADA.md) - Técnicas aplicadas
-- [🎨 Melhorias de Layout](MELHORIAS-LAYOUT.md) - Detalhes da interface
-- [📊 Resumo Completo](RESUMO-FINAL-COMPLETO.md) - Visão geral do sistema
+### ✨ Interface Moderna
+- Design neomorphism elegante
+- Drag and drop intuitivo
+- Tema claro/escuro
+- Responsivo (desktop, tablet, mobile)
+- Animações suaves
+- Feedback visual em tempo real
 
-### Documentação Técnica
-- [🔧 Como Ver os 100 Agentes](COMO-VER-OS-100-AGENTES.md)
-- [🐛 Guia de Debug](GUIA-DEBUG-MENU.md)
-- [📝 Relatório de Melhorias](RELATORIO-MELHORIA-PROMPTS.md)
+### 🎯 Sistema de Agentes
+- 113 agentes especializados em 10 categorias
+- Busca com debounce (300ms)
+- Categorias colapsáveis
+- Ícones e cores personalizadas
+
+### 🔄 Workflows
+- 10 workflows pré-configurados
+- Modo sequencial, paralelo e condicional
+- Contexto compartilhado entre agentes
+- Salvar/carregar workflows personalizados
+
+### 🚀 Melhorias de Performance
+- Retry automático de API (3 tentativas)
+- Exponential backoff (1s, 2s, 4s)
+- Validação de input (10-4000 chars)
+- Debounce em buscas
+
+### 📊 Recursos Avançados
+- Progress bar com estatísticas em tempo real
+- Histórico de execuções
+- Exportação em 4 formatos (MD, JSON, TXT, HTML)
+- Estatísticas de uso (execuções, agentes, tokens)
+
+### 🔑 Multi-API
+- OpenAI (GPT-3.5, GPT-4, etc)
+- Google Gemini
+- OpenRouter (acesso a múltiplos modelos)
 
 ## 🏗️ Arquitetura
 
@@ -256,8 +307,8 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 **Aleksandro Alves**
 
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- LinkedIn: [seu-linkedin](https://linkedin.com/in/seu-linkedin)
+- GitHub: [@aajunior43](https://github.com/aajunior43)
+- Email: aleksandro@agentesai.dev
 
 ## 🙏 Agradecimentos
 
@@ -268,9 +319,8 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 📞 Suporte
 
-- 📧 Email: seu-email@exemplo.com
-- 💬 Issues: [GitHub Issues](https://github.com/seu-usuario/crew-sem-crew/issues)
-- 📖 Docs: [Documentação Completa](docs/)
+- 💬 Issues: [GitHub Issues](https://github.com/aajunior43/crew-sem-crew/issues)
+- 📧 Email: aleksandro@agentesai.dev
 
 ## ⭐ Star History
 
