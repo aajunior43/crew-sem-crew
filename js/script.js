@@ -1144,6 +1144,21 @@ document.addEventListener('DOMContentLoaded', function() {
         setupAgentSearch();
     });
     
+    // Tentar popular menu imediatamente (caso os agentes já estejam carregados)
+    setTimeout(() => {
+        console.log('🔍 Verificando agentes disponíveis...');
+        const totalRoles = Object.keys(AgentRoles.roles).length;
+        console.log(`📊 Total de roles disponíveis: ${totalRoles}`);
+        
+        if (totalRoles > 3 && menuItems.children.length === 0) {
+            console.log('✅ Agentes já carregados, populando menu...');
+            populateMenuWithAllAgents();
+            setupAgentSearch();
+        } else if (totalRoles <= 3) {
+            console.log('⏳ Aguardando carregamento dos agentes JSON...');
+        }
+    }, 500);
+    
     // Função para configurar busca de agentes
     function setupAgentSearch() {
         const searchInput = document.getElementById('agentSearch');
@@ -1207,16 +1222,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('✅ Busca de agentes configurada com debounce');
     }
     
-    // Popular menu inicial (com agentes padrão)
-    setTimeout(() => {
-        // Se os agentes JSON ainda não foram carregados, popular com os padrão
-        if (menuItems.children.length === 0) {
-            console.log('⏳ Aguardando carregamento dos agentes JSON...');
-            populateMenuWithAllAgents();
-        }
-    }, 1000);
-    
-    console.log('Total de agentes no menu:', menuItems.children.length);
+    console.log('✅ Inicialização completa');
     
     // Atualizar estatísticas
     updateStats();

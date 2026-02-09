@@ -182,15 +182,28 @@ async function forceLoadAllAgents() {
 }
 
 // Executar imediatamente
+console.log('🔍 Verificando disponibilidade do AgentRoles...');
+
 if (typeof AgentRoles !== 'undefined') {
-    forceLoadAllAgents();
+    console.log('✅ AgentRoles encontrado, iniciando carregamento...');
+    forceLoadAllAgents().then(result => {
+        console.log('🎉 Carregamento concluído:', result);
+    }).catch(error => {
+        console.error('❌ Erro no carregamento:', error);
+    });
 } else {
-    console.error('❌ AgentRoles não encontrado! Aguardando...');
+    console.warn('⚠️ AgentRoles não encontrado! Aguardando 1 segundo...');
     setTimeout(() => {
         if (typeof AgentRoles !== 'undefined') {
-            forceLoadAllAgents();
+            console.log('✅ AgentRoles encontrado após espera, iniciando carregamento...');
+            forceLoadAllAgents().then(result => {
+                console.log('🎉 Carregamento concluído:', result);
+            }).catch(error => {
+                console.error('❌ Erro no carregamento:', error);
+            });
         } else {
-            console.error('❌ AgentRoles ainda não está disponível!');
+            console.error('❌ AgentRoles ainda não está disponível após 1 segundo!');
+            console.error('❌ Verifique se agent-roles.js está sendo carregado corretamente');
         }
     }, 1000);
 }
